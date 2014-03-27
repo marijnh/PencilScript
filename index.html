@@ -1,16 +1,17 @@
 <!doctype html>
 
-<title>Decladraw</title>
+<title>PencilScript</title>
 <meta charset="utf-8"/>
 
-<script src="lib/decladraw.js"></script>
+<script src="lib/pencilscript.js"></script>
 
-<textarea style="width: 100%; height: 300px; border: 1px solid #aa4">
-var style = require("style");
+<script type="text/x-pencilscript" id="gamegrid">
+var ps = PencilScript;
+var style = {background: "#ccf", foreground: "34c"};
 
 var unit = 20;
 
-var grid = new Grid({
+var grid = ps.grid({
   open: true,
   width: 6 * unit,
   height: 5 * unit,
@@ -21,7 +22,7 @@ var grid = new Grid({
   top: 0
 });
 
-var player = new Rect({
+var player = ps.rect({
   width: .8 * unit,
   height: 1.5 * unit,
   fill: "#404040",
@@ -29,7 +30,7 @@ var player = new Rect({
   top: grid.top + 1.825 * unit
 });
 
-var color = new Rect({
+var color = ps.rect({
   behind: grid,
   width: 2 * unit,
   height: 3 * unit,
@@ -37,16 +38,40 @@ var color = new Rect({
   left: grid.left + 2 * unit,
   top: grid.top + unit
 });
+</script>
+
+<textarea style="width: 100%; height: 300px; border: 1px solid #aa4">
 </textarea>
+<select></select> <button onclick="render()">Render</button><br>
 
 <script>
   var te = document.querySelector("textarea");
   te.addEventListener("keyup", function(e) {
     if (e.keyCode == 13 && e.ctrlKey) {
-      var exist = document.querySelector("svg");
-      if (exist) exist.parentNode.removeChild(exist);
+      render();
       e.preventDefault();
-      document.body.appendChild(decladraw.render(te.value));
     }
+  });
+
+  function render() {
+    var exist = document.querySelector("svg");
+    if (exist) exist.parentNode.removeChild(exist);
+    document.body.appendChild(PencilScript.picture(new Function(te.value)));
+  }
+
+  var scripts = document.querySelectorAll("script");
+  var sel = document.querySelector("select");
+  for (var i = 0; i < scripts.length; i++) {
+    var script = scripts[i];
+    if (script.id && script.type == "text/x-pencilscript") {
+      var code = script.innerText.trimLeft();
+      if (!sel.firstChild) te.value = code;
+      var opt = sel.appendChild(document.createElement("option"));
+      opt.value = code;
+      opt.appendChild(document.createTextNode(script.id));
+    }
+  }
+  sel.addEventListener("change", function() {
+    te.value = sel.value;
   });
 </script>
