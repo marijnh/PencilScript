@@ -1,0 +1,52 @@
+<!doctype html>
+
+<title>Decladraw</title>
+<meta charset="utf-8"/>
+
+<script src="lib/decladraw.js"></script>
+
+<textarea style="width: 100%; height: 300px; border: 1px solid #aa4">
+var style = require("style");
+
+var unit = 20;
+
+var grid = new Grid({
+  open: true,
+  width: 6 * unit,
+  height: 5 * unit,
+  strokeWidth: 1,
+  stroke: "black",
+  unit: unit,
+  left: 0,
+  top: 0
+});
+
+var player = new Rect({
+  width: .8 * unit,
+  height: 1.5 * unit,
+  fill: "#404040",
+  left: plus(grid.left, 2.725 * unit),
+  top: plus(grid.top, 1.825 * unit)
+});
+
+var color = new Rect({
+  behind: grid,
+  width: 2 * unit,
+  height: 3 * unit,
+  fill: style.background,
+  left: plus(grid.left, 2 * unit),
+  top: plus(grid.top, unit)
+});
+</textarea>
+
+<script>
+  var te = document.querySelector("textarea");
+  te.addEventListener("keyup", function(e) {
+    if (e.keyCode == 13 && e.ctrlKey) {
+      var exist = document.querySelector("svg");
+      if (exist) exist.parentNode.removeChild(exist);
+      e.preventDefault();
+      document.body.appendChild(decladraw.render(te.value));
+    }
+  });
+</script>
