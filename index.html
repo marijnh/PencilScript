@@ -65,7 +65,7 @@ var line = PencilScript.curvedArrow({
   function render() {
     var exist = document.querySelector("svg");
     if (exist) exist.parentNode.removeChild(exist);
-    document.body.appendChild(PencilScript.picture(new Function(te.value)));
+    PencilScript.picture({parentNode: document.body}, new Function(te.value));
   }
 
   var scripts = document.querySelectorAll("script");
