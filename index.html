@@ -7,7 +7,7 @@
 
 <script type="text/x-pencilscript" id="gamegrid">
 var ps = PencilScript;
-var style = {background: "#ccf", foreground: "34c"};
+var style = {background: "#ccf", foreground: "#34c"};
 
 var unit = 20;
 
@@ -40,6 +40,16 @@ var color = ps.rect({
 });
 </script>
 
+<script type="text/x-pencilscript" id="smoothline">
+var line = PencilScript.curvedLine({
+  startX: 0, startY: 0, startDir: 1,
+  endX: 100, endY: 100, endDir: 1,
+  stroke: "black",
+  fill: "none",
+  strokeWidth: 2
+});
+</script>
+
 <textarea style="width: 100%; height: 300px; border: 1px solid #aa4">
 </textarea>
 <select></select> <button onclick="render()">Render</button><br>
@@ -65,13 +75,15 @@ var color = ps.rect({
     var script = scripts[i];
     if (script.id && script.type == "text/x-pencilscript") {
       var code = script.innerText.trimLeft();
-      if (!sel.firstChild) te.value = code;
       var opt = sel.appendChild(document.createElement("option"));
       opt.value = code;
       opt.appendChild(document.createTextNode(script.id));
     }
   }
+  sel.selectedIndex = sel.childNodes.length - 1;
+  te.value = sel.value;
   sel.addEventListener("change", function() {
     te.value = sel.value;
   });
+  render();
 </script>
