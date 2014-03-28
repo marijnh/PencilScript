@@ -49,6 +49,16 @@ var line = PencilScript.curvedArrow({
 });
 </script>
 
+<script type="text/x-pencilscript" id="textbox">
+  var pc = PencilScript;
+  pc.textBox({text: "Hello",
+              left: 10,
+              bottom: 100,
+              fill: "#ddd",
+              fontSize: "34",
+              stroke: "black"});
+</script>
+
 <textarea style="width: 100%; height: 300px; border: 1px solid #aa4">
 </textarea>
 <select></select> <button onclick="render()">Render</button><br>
