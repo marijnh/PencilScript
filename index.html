@@ -83,7 +83,7 @@ var line = PencilScript.curvedArrow({
   for (var i = 0; i < scripts.length; i++) {
     var script = scripts[i];
     if (script.id && script.type == "text/x-pencilscript") {
-      var code = script.innerText.trimLeft();
+      var code = script.innerHTML.trimLeft();
       var opt = sel.appendChild(document.createElement("option"));
       opt.value = code;
       opt.appendChild(document.createTextNode(script.id));
