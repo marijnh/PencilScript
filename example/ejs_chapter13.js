@@ -9,7 +9,7 @@ var preludeArrows = function(){/*
       src: local('PT Mono'), local('PTMono-Regular'), url(http://themes.googleusercontent.com/static/fonts/ptmono/v1/jmle3kzCPnW8O7_gZGRDlQ.woff) format('woff');
     }
     .box {
-      stroke-width: 1px; stroke: #666;
+      stroke: #666;
       fill: url(#boxgrad);
       border-radius: 4px;
     }
@@ -22,27 +22,8 @@ var preludeArrows = function(){/*
       stroke: none;
       fill: black;
     }
-    .leafboxtext {
-      font-family: "Georgia";
-    }
-    .arrow {
-      stroke: black;
-      stroke-width: 1px;
-    }
-
-    .leaf {
-      font-family: "Georgia";
-      font-size: 17px;
-    }
-    .wraptext {
-      font-family: "PT Mono";
-      font-size: 14px;
-    }
-    .wrap {
-      border-radius: 8px;
-      stroke-width: 1px; stroke: #666;
-      fill: none;
-    }
+    .leafboxtext { font-family: "Georgia"; }
+    .arrow { stroke: black; }
   </style>
   <defs>
     <linearGradient id="boxgrad" x1="0" x2="0" y1="0" y2="1">
@@ -123,8 +104,10 @@ function wrapbox(name, around, conf) {
   if (!conf) conf = {};
   var box = boundingBox(around);
   var label = ps.text({text: name, class: "wraptext", left: box.left, bottom: box.top - (conf.nearTop ? -12 : 8)});
-  return ps.rect({class: "wrap", left: box.left - spaceX, width: Math.max(conf.width || 0, box.width + 2 * spaceX),
-                  top: label.top - spaceYH, bottom: box.bottom + spaceY});
+  var box = ps.rect({class: "wrap", left: box.left - spaceX, width: Math.max(conf.width || 0, box.width + 2 * spaceX),
+                     top: label.top - spaceYH, bottom: box.bottom + spaceY});
+  box.label = label;
+  return box;
 }
 
 var preludeBoxes = function(){/*
@@ -166,4 +149,68 @@ ps.picture({prelude: preludeBoxes}, function() {
   var title = wrapbox("title", [tt], {width: h1.width});
   var head = wrapbox("head", [title]);
   var html = wrapbox("html", [head, body]);
+});
+
+
+var preludeLinks = function(){/*
+  <style>
+    @font-face {
+      font-family: 'PT Mono';
+      font-style: normal;
+      font-weight: 400;
+      src: local('PT Mono'), local('PTMono-Regular'), url(http://themes.googleusercontent.com/static/fonts/ptmono/v1/jmle3kzCPnW8O7_gZGRDlQ.woff) format('woff');
+    }
+    .leaf {
+      font-family: "Georgia";
+      font-size: 17px;
+    }
+    .wraptext, .linktext, .index {
+      font-family: "PT Mono";
+      font-size: 14px;
+    }
+    .wrap {
+      border-radius: 14px;
+      stroke: #666;
+      fill: none;
+    }
+    .link { stroke: #6aa; }
+    .linktext, .index { fill: #6aa; }
+  </style>
+*/};
+
+var arrowGap = 20;
+
+function link(x, y, d, x2, y2, d2, conf) {
+  ps.curvedArrow({startX: x, startY: y, startDir: d, endX: x2, endY: y2, endDir: d2,
+                  class: "link", radius: 7,
+                  start: conf && conf.start, end: conf && conf.end});
+}
+
+ps.picture({prelude: preludeLinks}, function() {
+  var p2t = ps.text({text: "I also wrote a book! ...", class: "leaf", top: 0, right: 0});
+  var p2 = wrapbox("p", [p2t]);
+  var p1t = ps.text({text: "Hello, I am Marijn...", class: "leaf", bottom: p2.top - spaceY * 3, left: p2t.left});
+  var p1 = wrapbox("p", [p1t], {width: p2.width});
+  var h1t = ps.text({text: "My home page", class: "leaf", bottom: p1.top - spaceY * 3, left: p1t.left});
+  var h1 = wrapbox("h1", [h1t], {width: p1.width});
+  var body = wrapbox("body", [h1, p1, p2]);
+  var zero = ps.text({text: "0", class: "index", right: body.left - spaceX - arrowGap, top: h1.label.top});
+  var one = ps.text({text: "1", class: "index", right: zero.right, top: p1.label.top});
+  var two = ps.text({text: "2", class: "index", right: zero.right, top: p2.label.top});
+  var childNodes = ps.rect({class: "wrap", right: zero.right + spaceX, left: zero.left - spaceX, top: zero.top - spaceY, bottom: two.bottom + spaceY});
+  [zero, one, two].forEach(function(n) {
+    link(childNodes.right, n.centerY, 1, h1.left, n.centerY, 1);
+  });
+  link(body.left + 15, body.top, 0, childNodes.centerX, childNodes.top, 2, {start: 5});
+  ps.text({left: body.left + 20, bottom: body.top - 5, text: "childNodes", class: "linktext"});
+  link(body.centerX + 40, body.top, 0, body.centerX + 20, h1.top, 2, {start: 5});
+  ps.text({left: body.centerX + 45, bottom: body.top - 5, text: "firstChild", class: "linktext"});
+  link(body.centerX + 40, body.bottom, 2, body.centerX + 20, p2.bottom, 0, {start: 5});
+  ps.text({left: body.centerX + 45, top: body.bottom + 5, text: "lastChild", class: "linktext"});
+  link(p1.left + 20, p1.top, 0, p1.left + 20, h1.bottom, 0);
+  ps.text({left: p1.left + 25, centerY: (p1.top + h1.bottom) / 2, text: "previousSibling", class: "linktext"});
+  link(p1.left + 20, p1.bottom, 2, p1.left + 20, p2.top, 2);
+  ps.text({left: p1.left + 25, centerY: (p1.bottom + p2.top) / 2, text: "nextSibling", class: "linktext"});
+  link(p1.right, p1.centerY, 1, body.right, p1.centerY - 20, 3, {end: 7});
+  ps.text({left: body.right + 5, top: p1.centerY + 5, text: "parentNode", class: "linktext"});
 });
