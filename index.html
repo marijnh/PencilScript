@@ -1,181 +1,20 @@
 <!doctype html>
 
-<title>PencilScript</title>
+<title>PencilScript Examples</title>
 <meta charset="utf-8"/>
 
 <script src="lib/pencilscript.js"></script>
 
-<script type="text/x-pencilscript" id="gamegrid">
-var ps = PencilScript;
-var style = {background: "#ccf", foreground: "#34c"};
-
-var unit = 20;
-
-var grid = ps.grid({
-  open: true,
-  width: 6 * unit,
-  height: 5 * unit,
-  strokeWidth: 1,
-  stroke: "black",
-  unit: unit,
-  left: 0,
-  top: 0
-});
-
-var player = ps.rect({
-  width: .8 * unit,
-  height: 1.5 * unit,
-  fill: "#404040",
-  left: grid.left + 2.725 * unit,
-  top: grid.top + 1.825 * unit
-});
-
-var color = ps.rect({
-  behind: grid,
-  width: 2 * unit,
-  height: 3 * unit,
-  fill: style.background,
-  left: grid.left + 2 * unit,
-  top: grid.top + unit
-});
-</script>
-
-<script type="text/x-pencilscript" id="smoothline">
-var line = PencilScript.curvedArrow({
-  startX: 0, startY: 0, startDir: 1,
-  endX: 100, endY: 100, endDir: 1,
-  stroke: "black",
-  strokeWidth: 2
-});
-</script>
-
-<script type="text/x-pencilscript" id="textbox">
-var pc = PencilScript;
-pc.prelude(function(){/*
-  <style>
-    @font-face {
-      font-family: 'PT Mono';
-      font-style: normal;
-      font-weight: 400;
-      src: local('PT Mono'), local('PTMono-Regular'), url(http://themes.googleusercontent.com/static/fonts/ptmono/v1/jmle3kzCPnW8O7_gZGRDlQ.woff) format('woff');
-    }
-    .box {
-      stroke-width: 1px; stroke: #666;
-      fill: url(#boxgrad);
-      border-radius: 8px;
-    }
-    .leafbox {
-      fill: url(#leafgrad);
-    }
-    .boxtext {
-      font-size: 20px;
-      font-family: "PT Mono";
-      stroke: none;
-      fill: black;
-    }
-    .leafboxtext {
-      font-family: "Georgia";
-    }
-    .arrow {
-      stroke: black;
-      stroke-width: 1px;
-    }
-  </style>
-  <defs>
-    <linearGradient id="boxgrad" x1="0" x2="0" y1="0" y2="1">
-      <stop stop-color="#f8f8f8" offset="0%"/>
-      <stop stop-color="#e8e8f2" offset="100%"/>
-    </linearGradient>
-    <linearGradient id="leafgrad" x1="0" x2="0" y1="0" y2="1">
-      <stop stop-color="#f8f8f8" offset="0%"/>
-      <stop stop-color="#c6f2f2" offset="100%"/>
-    </linearGradient>
-  </defs>
-*/});
-function box(left, top, text, props) {
-  var leaf = props && props.leaf;
-  var conf = {text: text,
-              class: "box" + (leaf ? " leafbox" : ""),
-              textClass: "boxtext" + (leaf ? " leafboxtext" : ""),
-              left: left, top: top};
-  if (props) for (var p in props) conf[p] = props[p];
-  return pc.textBox(conf);
-}
-function arr(startX, startY, startDir, endX, endY, endDir) {
-  return pc.curvedArrow({startX: startX, startY: startY, startDir: startDir,
-                         endX: endX, endY: endY, endDir: endDir,
-                         class: "arrow", radius: 4, pointSize: 1});
-}
-function arrRight(from, to) {
-  var endY = from.top == to.top ? from.centerY : to.centerY;
-  return arr(from.right, from.centerY, 1,
-             to.left, endY, 1);
-}
-var gap = 15, indent = 25, arrOff = 10;
-
-var html = box(0, 0, "html");
-var head = box(html.left + indent, html.bottom + gap, "head");
-arr(html.left + arrOff, html.bottom, 2, head.left, head.centerY, 1);
-var title = box(head.right + indent, head.top, "title");
-arrRight(head, title);
-var titleText = box(title.right + indent, title.top, "My home page", {leaf: true});
-arrRight(title, titleText);
-var body = box(head.left, title.bottom + gap, "body");
-arr(html.left + arrOff, html.bottom, 2, body.left, body.centerY, 1);
-var h1 = box(body.left + indent, body.bottom + gap, "h1");
-arr(body.left + arrOff, body.bottom, 2, h1.left, h1.centerY, 1);
-var hText = box(h1.right + indent, h1.top, "My home page", {leaf: true});
-arrRight(h1, hText);
-var p1 = box(body.left + indent, h1.bottom + gap, "p", {width: h1.width});
-arr(body.left + arrOff, body.bottom, 2, p1.left, p1.centerY, 1);
-var p1Text = box(p1.right + indent, p1.top, "Hello! I am...", {leaf: true, width: hText.width});
-arrRight(p1, p1Text);
-var p2 = box(body.left + indent, p1.bottom + gap, "p", {width: h1.width});
-arr(body.left + arrOff, body.bottom, 2, p2.left, p2.centerY, 1);
-var p2Text = box(p2.right + indent, p2.top, "I also wrote...", {leaf: true, width: hText.width});
-arrRight(p2, p2Text);
-var link = box(p2Text.left, p2.bottom + gap, "a");
-arr(p2.right + arrOff, p2.centerY, 2, link.left, link.centerY, 1);
-var linkText = box(link.right + indent, link.top, "here", {leaf: true});
-arrRight(link, linkText);
-var p2Text2 = box(link.left, link.bottom + gap, ".", {leaf: true});
-arr(p2.right + arrOff, p2.centerY, 2, p2Text2.left, p2Text2.centerY, 1);
-</script>
-
-<textarea style="width: 100%; height: 300px; border: 1px solid #aa4">
-</textarea>
-<select></select> <button onclick="render()">Render</button><br>
-
 <script>
-  var te = document.querySelector("textarea");
-  te.addEventListener("keyup", function(e) {
-    if (e.keyCode == 13 && e.ctrlKey) {
-      render();
-      e.preventDefault();
-    }
-  });
-
-  function render() {
-    var exist = document.querySelector("svg");
-    if (exist) exist.parentNode.removeChild(exist);
-    PencilScript.picture({parentNode: document.body}, new Function(te.value));
-  }
-
-  var scripts = document.querySelectorAll("script");
-  var sel = document.querySelector("select");
-  for (var i = 0; i < scripts.length; i++) {
-    var script = scripts[i];
-    if (script.id && script.type == "text/x-pencilscript") {
-      var code = script.innerHTML.trimLeft();
-      var opt = sel.appendChild(document.createElement("option"));
-      opt.value = code;
-      opt.appendChild(document.createTextNode(script.id));
-    }
-  }
-  sel.selectedIndex = sel.childNodes.length - 1;
-  te.value = sel.value;
-  sel.addEventListener("change", function() {
-    te.value = sel.value;
-  });
-  render();
+  PencilScript.pictureDefaults.place = function(node) {
+    document.body.appendChild(node);
+    document.body.appendChild(document.createElement("br"));
+  };
 </script>
+
+<body>
+  <h1>Chapter 13</h1>
+  <script src="example/ejs_chapter13.js"></script>
+  <h1>Chapter 15</h1>
+  <script src="example/ejs_chapter15.js"></script>
+</body>
