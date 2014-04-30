@@ -58,7 +58,7 @@ function arrRight(from, to) {
 }
 var gap = 15, indent = 25, arrOff = 8;
 
-ps.picture({prelude: preludeArrows}, function() {
+picture("html-tree", {prelude: preludeArrows}, function() {
   var html = tagbox(0, 0, "html");
   var head = tagbox(html.right + indent, html.top, "head");
   arrRight(html, head);
@@ -127,14 +127,14 @@ var preludeBoxes = function(){/*
       font-size: 14px;
     }
     .wrap {
-      border-radius: 14px;
+      border-radius: 4px;
       stroke-width: 1px; stroke: #666;
       fill: none;
     }
   </style>
 */};
 
-ps.picture({prelude: preludeBoxes}, function() {
+picture("html-boxes", {prelude: preludeBoxes}, function() {
   var at = ps.text({text: "here", class: "leaf", top: 0, left: 0});
   var a = wrapbox("a", [at]);
   var dot = ps.text({text: ".", class: "leaf", top: at.top, left: at.right + 2 * spaceX});
@@ -169,7 +169,7 @@ var preludeLinks = function(){/*
       font-size: 14px;
     }
     .wrap {
-      border-radius: 14px;
+      border-radius: 4px;
       stroke: #666;
       fill: none;
     }
@@ -186,7 +186,7 @@ function link(x, y, d, x2, y2, d2, conf) {
                   start: conf && conf.start, end: conf && conf.end});
 }
 
-ps.picture({prelude: preludeLinks}, function() {
+picture("html-links", {prelude: preludeLinks}, function() {
   var p2t = ps.text({text: "I also wrote a book! ...", class: "leaf", top: 0, right: 0});
   var p2 = wrapbox("p", [p2t]);
   var p1t = ps.text({text: "Hello, I am Marijn...", class: "leaf", bottom: p2.top - spaceY * 3, left: p2t.left});

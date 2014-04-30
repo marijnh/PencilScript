@@ -1,5 +1,3 @@
-var ps = PencilScript;
-
 var prelude = function() {/*
 <defs>
   <g id="squirrel">
@@ -19,7 +17,7 @@ var prelude = function() {/*
 </defs>
 */};
 
-ps.picture({prelude: prelude}, function() {
+picture("pizza-squirrel", {prelude: prelude}, function() {
   var ux = 250, uy = 170;
   var grid = ps.grid({unitX: ux, unitY: uy, width: 2 * ux, height: 2 * uy, strokeWidth: 2, stroke: "black", top: 0, left: 0});
   for (var pizza = 0; pizza < 2; pizza++) {
@@ -33,4 +31,15 @@ ps.picture({prelude: prelude}, function() {
                right: x + ux - 20, bottom: y + uy - 10, fontFamily: "Georgia", fontSize: 31});
     }
   }
+});
+
+picture("linked-list", {prelude: objPrelude}, function() {
+  var between = 30, width = 50;
+  var c1 = objbox(null, ["value: 1", "rest:"], {left: 0, top: 0, width: width});
+  var c2 = objbox(null, ["value: 2", "rest:"], {left: c1.box.right + between, top: c1.box.top + 10, width: width});
+  var a1y = c1.lines[1].centerY + 1;
+  ps.arrow({startX: c1.lines[1].right + 8, startY: a1y, endX: c2.box.left, endY: a1y, class: "sep"});
+  var c3 = objbox(null, ["value: 3", "rest: null"], {left: c2.box.right + between, top: c2.box.top + 10, width: width});
+  var a2y = c2.lines[1].centerY + 1;
+  ps.arrow({startX: c2.lines[1].right + 8, startY: a2y, endX: c3.box.left, endY: a2y, class: "sep"});
 });
