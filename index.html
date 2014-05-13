@@ -4,13 +4,10 @@
 <meta charset="utf-8"/>
 
 <script src="lib/pencilscript.js"></script>
+<script src="example/obj.js"></script>
 
-<script>
-  PencilScript.pictureDefaults.place = function(node) {
-    document.body.appendChild(node);
-    document.body.appendChild(document.createElement("br"));
-  };
-</script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.0.0/jszip.js"></script>
+<script src="example/wrap.js"></script>
 
 <body>
   <h1>Chapter 4</h1>
@@ -21,4 +18,8 @@
   <script src="example/ejs_chapter13.js"></script>
   <h1>Chapter 15</h1>
   <script src="example/ejs_chapter15.js"></script>
+  <h1>Chapter 16</h1>
+  <script src="example/ejs_chapter16.js"></script>
+
+  <p><button onclick="getZip()">Zip</button></p>
 </body>
