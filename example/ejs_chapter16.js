@@ -62,6 +62,8 @@ size = 80;
 var circle = 60;
 picture("cos_sin", {prelude: preludeTransform}, function() {
   axes({stroke: "black"});
+  ps.polygon({path: "M 14.7 3 A 15 15 0 1 1 10.6 -10.6", stroke: "black", fill: "none"});
+  ps.arrow({startX: 12.6, startY: -8.6, endX: 13.6, endY: -7.6, stroke: "black"});
   ps.circle({stroke: "black", radius: circle, centerX: 0, centerY: 0, fill: "none"});
 
   var a1 = .25 * Math.PI;

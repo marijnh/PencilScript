@@ -19,11 +19,15 @@ function toText(node) {
   return node.outerHTML.replace(/^<svg\s*/, '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ');
 }
 
-function getZip() {
+function getZip(node) {
   var zip = new JSZip();
   files.forEach(function(file) {
     zip.file(file.name + ".svg", file.content);
   });
-  var content = zip.generate();
-  location.href="data:application/zip;base64,"+content;
+  var content = zip.generate({type: "blob"});
+  var link = document.createElement("a");
+  link.href = URL.createObjectURL(content);
+  link.setAttribute("download", "pictures.zip");
+  link.innerHTML = "download";
+  node.parentNode.appendChild(link);
 }
