@@ -4,15 +4,23 @@ var files = [];
 
 function picture(name, conf, f) {
   if (!f) { f = conf; conf = {}; }
-  var svg;
+  var svg, link;
   conf.place = function(node) {
     svg = node;
     document.body.appendChild(node);
+    link = document.body.appendChild(document.createTextNode(" "));
+    link = document.body.appendChild(document.createElement("a"));
+    link.textContent = "(download)";
+    link.setAttribute("download", name + ".svg");
+    link.href = "javascript:";
     document.body.appendChild(document.createElement("br"));
   };
   ps.picture(conf, f);
   if (svg.offsetWidth > 640) console.log(name + " is too wide (" + svg.offsetWidth + ")");
   files.push({name: name, content: toText(svg)});
+  link.addEventListener("mouseover", function() {
+    link.href = "data:image/svg+xml;base64," + btoa(toText(svg));
+  });
 }
 
 function toText(node) {
