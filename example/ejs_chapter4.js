@@ -23,9 +23,9 @@ picture("pizza-squirrel", {prelude: prelude}, function() {
   for (var pizza = 0; pizza < 2; pizza++) {
     for (var squirrel = 0; squirrel < 2; squirrel++) {
       var x = pizza * ux, y = squirrel * uy;
-      ps.use({href: "#pizza", left: 35 + x, top: 20 + y, opacity: pizza ? null : .3});
-      ps.use({href: "#squirrel", left: 125 + x, top: 20 + y, opacity: squirrel ? null : .3});
-      ps.text({text: (pizza ? "P" : "No p") + "izza, " + (squirrel ? "" : "no ") + "squirrel",
+      ps.use({href: "#pizza", left: 150 + x, top: 20 + y, opacity: pizza ? null : .3});
+      ps.use({href: "#squirrel", left: 20 + x, top: 20 + y, opacity: squirrel ? null : .3});
+      ps.text({text: (squirrel ? "S" : "No s") + "quirrel, " + (pizza ? "" : "no ") + "pizza",
                left: x + 20, bottom: y + uy - 10, fontFamily: "Georgia", fontSize: 17});
       ps.text({text: [76, 9, 4, 1][pizza + squirrel * 2],
                right: x + ux - 20, bottom: y + uy - 10, fontFamily: "Georgia", fontSize: 31});
