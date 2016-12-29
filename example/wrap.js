@@ -19,7 +19,7 @@ function picture(name, conf, f) {
   if (svg.offsetWidth > 640) console.log(name + " is too wide (" + svg.offsetWidth + ")");
   files.push({name: name, content: toText(svg)});
   link.addEventListener("mouseover", function() {
-    link.href = "data:image/svg+xml;base64," + btoa(toText(svg));
+    link.href = "data:image/svg+xml," + toText(svg);
   });
 }
 
