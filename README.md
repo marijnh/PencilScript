@@ -6,7 +6,7 @@ for illustrations in the second edition of Eloquent JavaScript.
 
 It runs as JavaScript in the browser, querying the browser's layout
 and CSS engines during the generation of the picture. It currently
-only seems to fully work in Chrome, because FF's often reports crazy
+only seems to fully work in Chrome, because FF's often reports bogus
 bounding boxes for SVG nodes.
 
 This helps in a few ways compared to writing raw SVG:
