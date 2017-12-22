@@ -38,12 +38,10 @@ picture("control-io", {prelude: preludeControl}, function() {
   controlSync(y, [5, "cpu", 50, "io", 5, "cpu"]);
   ps.text({left: 0, top: y + 12, text: "asynchronous", fontFamily: "PT Mono"});
   y += 40;
+  ps.line({stroke: col.io, fill: "none", path: "M 10 " + y + " a 20 20 0 0 0 20 20 l 30 0 a 20 20 0 0 0 20 -20"});
+  ps.line({stroke: col.io, fill: "none", path: "M 20 " + y + " a 10 10 0 0 0 10 10 l 70 0 a 10 10 0 0 0 10 -10"});
   controlSync(y, [15, "cpu"]);
-  controlSync(y, [5, null, 0, "io", 5, null, 0, "io"]);
-  ps.line({stroke: col.io, fill: "none", path: "M 10 " + y + " a 20 20 0 0 0 20 20 l 50 0"});
-  ps.line({stroke: col.io, fill: "none", path: "M 20 " + y + " a 10 10 0 0 0 10 10 l 80 0"});
-  y += 10;
-  controlSync(y, [55, null, 10, "cpu"]);
-  y += 10;
-  controlSync(y, [40, null, 5, "cpu"]);
+  controlSync(y, [5, null, 0, "io", 5, null, 0, "io", 30, null, 5, "cpu", 10, null, 10, "cpu"]);
+//  controlSync(y, [55, null, 10, "cpu"]);
+//  controlSync(y, [40, null, 5, "cpu"]);
 });
